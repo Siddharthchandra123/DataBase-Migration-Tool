@@ -1,0 +1,15 @@
+services:
+  metadata-db:
+    image: postgres:16
+    container_name: migration-metadata-db
+    environment:
+      POSTGRES_DB: migration_metadata
+      POSTGRES_USER: migration
+      POSTGRES_PASSWORD: change_me
+    ports:
+      - "5433:5432"
+    volumes:
+      - migration_pgdata:/var/lib/postgresql/data
+
+volumes:
+  migration_pgdata:
