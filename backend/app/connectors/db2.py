@@ -1,4 +1,4 @@
-from typing import Any
+﻿from typing import Any
 
 from app.connectors.base import ConnectionConfig, DatabaseConnector
 from app.connectors.db2_catalog import DB2CatalogMixin
@@ -44,13 +44,13 @@ class DB2Connector(DB2CatalogMixin, DatabaseConnector):
             import ibm_db
             stmt = ibm_db.exec_immediate(
                 self.connection,
-                "SELECT DISTINCT CREATOR FROM SYSCAT.TABLES "
-                "WHERE TYPE='T' ORDER BY CREATOR"
+                "SELECT DISTINCT TABSCHEMA FROM SYSCAT.TABLES "
+                "WHERE TYPE='T' ORDER BY TABSCHEMA"
             )
             result = []
             row = ibm_db.fetch_assoc(stmt)
             while row:
-                result.append(row["CREATOR"])
+                result.append(row["TABSCHEMA"])
                 row = ibm_db.fetch_assoc(stmt)
             return result
         finally:
@@ -63,7 +63,7 @@ class DB2Connector(DB2CatalogMixin, DatabaseConnector):
             stmt = ibm_db.prepare(
                 self.connection,
                 "SELECT TABNAME FROM SYSCAT.TABLES "
-                "WHERE CREATOR=? AND TYPE='T' ORDER BY TABNAME"
+                "WHERE TABSCHEMA=? AND TYPE='T' ORDER BY TABNAME"
             )
             ibm_db.bind_param(stmt, 1, schema)
             ibm_db.execute(stmt)
@@ -130,3 +130,4 @@ class DB2Connector(DB2CatalogMixin, DatabaseConnector):
                 yield rows
         finally:
             self.close()
+

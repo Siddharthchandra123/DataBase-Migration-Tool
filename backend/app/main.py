@@ -1,3 +1,4 @@
+﻿from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 
 from app.api.audit import router as audit_router
@@ -15,6 +16,18 @@ app = FastAPI(
     description="Enterprise database migration platform MVP",
 )
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://127.0.0.1:15173",
+        "http://localhost:15173",
+        "http://127.0.0.1:5173",
+        "http://localhost:5173",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.include_router(connections_router, prefix="/api/connections", tags=["Connections"])
 app.include_router(discovery_router, prefix="/api/discovery", tags=["Discovery"])
 app.include_router(schema_mapping_router, prefix="/api/schema", tags=["Schema Mapping"])
@@ -31,3 +44,5 @@ def startup():
 @app.get("/health")
 def health():
     return {"status": "ok", "service": settings.app_name, "version": "0.4.0"}
+
+
