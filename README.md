@@ -166,3 +166,5 @@ mig/
 ## Security and Contributing
 
 Keep `.env`, credentials, database dumps, and connection URLs with passwords out of Git. Reproduce bugs using anonymized schemas and include test output and audit events. Add a `LICENSE` file before advertising an open-source license.
+
+![alt text](image-1.png)
